@@ -201,7 +201,7 @@ Transform:
   m_GameObject: {fileID: 6409371}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -1.967, y: -1.9380001, z: 0}
+  m_LocalPosition: {x: -1.967, y: -1.938, z: 0}
   m_LocalScale: {x: 1.96714, y: 3.3954675, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -239,7 +239,7 @@ GameObject:
   - component: {fileID: 41419970}
   - component: {fileID: 41419971}
   m_Layer: 0
-  m_Name: Continue (1)
+  m_Name: Continue_Mask
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1585,6 +1585,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hoverObject: {fileID: 522078063}
+  anims:
+  - {fileID: 1929263027}
+  - {fileID: 661797752}
+  - {fileID: 1364790791}
+  - {fileID: 6409374}
+  - {fileID: 1776591499}
+  - {fileID: 312217124}
+  - {fileID: 1052916616}
 --- !u!61 &1929263029
 BoxCollider2D:
   m_ObjectHideFlags: 0

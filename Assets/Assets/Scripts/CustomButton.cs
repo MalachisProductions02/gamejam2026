@@ -1,8 +1,10 @@
 using UnityEngine;
+using System.Collections.Generic;
 
 public class CustomButton : MonoBehaviour
 {
     [SerializeField] private GameObject hoverObject;
+    [SerializeField] private List<Animator> anims;
 
     private void Start()
     {
@@ -23,6 +25,13 @@ public class CustomButton : MonoBehaviour
 
     private void OnMouseDown()
     {
+        hoverObject.SetActive(false);
+        
+        foreach (Animator anim in anims)
+        {
+            anim.SetBool("Bye", true);
+        }
+
         Debug.Log("Mouse clicked");
     }
 }
