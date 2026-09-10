@@ -4,11 +4,13 @@ using System.Collections.Generic;
 public class CustomButton : MonoBehaviour
 {
     [SerializeField] private GameObject hoverObject;
+    [SerializeField] private GameObject hoverPanel;
     [SerializeField] private List<Animator> anims;
 
     private void Start()
     {
         hoverObject.SetActive(false);
+        hoverPanel.SetActive(false);
     }
 
     private void OnMouseEnter()
@@ -30,6 +32,7 @@ public class CustomButton : MonoBehaviour
         foreach (Animator anim in anims)
         {
             anim.SetBool("Bye", true);
+            hoverPanel.SetActive(true);
         }
 
         Debug.Log("Mouse clicked");
