@@ -4,14 +4,13 @@ using UnityEngine;
 
 public class DungeonGenerator : MonoBehaviour
 {
-    [Header("Configuración de la Mazmorra")]
-    [Tooltip("Cantidad exacta de habitaciones a generar (incluyendo Inicio y Boss).")]
-    public int totalRooms = 10;
+    [Header("Configuración Base de la Mazmorra")]
+    public int baseRooms = 8;             // Habitaciones en el Piso 1
+    public int roomsPerFloor = 2;         // Cuántas habitaciones extra se suman por cada piso
     public float roomDistance = 12f;
 
     [Header("Ajustes de Generación")]
     [Range(0.1f, 1.0f)]
-    [Tooltip("Probabilidad de extenderse a un vecino. Valores altos crean mapas más compactos; valores bajos crean caminos más lineales.")]
     public float expansionChance = 0.6f;
 
     [Header("Prefabs de Habitaciones")]
@@ -19,22 +18,39 @@ public class DungeonGenerator : MonoBehaviour
     public GameObject[] roomPrefabs;
     public GameObject bossRoomPrefab;
 
+    private int totalRooms;
     private HashSet<Vector2Int> roomPositions = new HashSet<Vector2Int>();
     private Queue<Vector2Int> roomQueue = new Queue<Vector2Int>();
 
     void Start()
     {
+        /* Calcular habitaciones según el piso actual del GameManager
+        int currentFloor = 1;
+        if (GameManager.Instance != null)
+        {
+            currentFloor = GameManager.Instance.currentFloor;
+        }
+
+        totalRooms = baseRooms + (currentFloor - 1) * roomsPerFloor;
+        Debug.Log($"Generando Piso {currentFloor} con {totalRooms} habitaciones.");
+
+        GenerateDungeon();
+        
+        (suma habitaciones por piso)
+        */
+        totalRooms = baseRooms;
+
+        Debug.Log($"Generando nivel con {totalRooms} habitaciones.");
+
         GenerateDungeon();
     }
 
     void GenerateDungeon()
     {
-        // Limpiar estado
         roomPositions.Clear();
         roomQueue.Clear();
 
         Vector2Int startPos = Vector2Int.zero;
-
         roomPositions.Add(startPos);
         roomQueue.Enqueue(startPos);
 
@@ -46,13 +62,10 @@ public class DungeonGenerator : MonoBehaviour
             Vector2Int.right
         };
 
-        List<Vector2Int> createdRooms = new List<Vector2Int>();
-        createdRooms.Add(startPos);
+        List<Vector2Int> createdRooms = new List<Vector2Int> { startPos };
 
-        // Bucle de expansión garantizado
         while (roomPositions.Count < totalRooms)
         {
-            // Si la cola se vacía por mala suerte en el Random, tomamos una posición existente al azar para seguir expandiendo
             if (roomQueue.Count == 0)
             {
                 Vector2Int randomCreated = createdRooms[Random.Range(0, createdRooms.Count)];
@@ -60,8 +73,6 @@ public class DungeonGenerator : MonoBehaviour
             }
 
             Vector2Int current = roomQueue.Dequeue();
-
-            // Mezclar direcciones para mayor variedad
             ShuffleDirections(directions);
 
             foreach (Vector2Int dir in directions)
@@ -73,7 +84,6 @@ public class DungeonGenerator : MonoBehaviour
 
                 if (!roomPositions.Contains(nextPos))
                 {
-                    // La primera conexión desde un nodo atascado se fuerza para evitar bucles infinitos
                     if (Random.value <= expansionChance || roomQueue.Count == 0)
                     {
                         roomPositions.Add(nextPos);
@@ -84,14 +94,13 @@ public class DungeonGenerator : MonoBehaviour
             }
         }
 
-        // Buscar la habitación más alejada (Boss)
+        // Buscar habitación del Boss (la más lejana)
         Vector2Int bossPos = startPos;
         int maxDistance = 0;
 
         foreach (Vector2Int pos in createdRooms)
         {
             int distance = Mathf.Abs(pos.x - startPos.x) + Mathf.Abs(pos.y - startPos.y);
-
             if (distance > maxDistance)
             {
                 maxDistance = distance;
@@ -123,7 +132,6 @@ public class DungeonGenerator : MonoBehaviour
                 }
                 else
                 {
-                    // Si tienes menos prefabs únicos que salas solicitadas, reutiliza un prefab aleatorio
                     GameObject fallbackPrefab = roomPrefabs[Random.Range(0, roomPrefabs.Length)];
                     InstantiateRoom(pos, fallbackPrefab);
                 }
@@ -142,7 +150,6 @@ public class DungeonGenerator : MonoBehaviour
         Instantiate(prefab, worldPosition, Quaternion.identity, transform);
     }
 
-    // Método auxiliar para desordenar las direcciones en cada paso
     void ShuffleDirections(Vector2Int[] array)
     {
         for (int i = 0; i < array.Length; i++)
