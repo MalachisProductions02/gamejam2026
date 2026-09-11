@@ -641,7 +641,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0d659ed4301a5ff42ab36bef99cfa86c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  baseRooms: 8
+  baseRooms: 10
   roomsPerFloor: 2
   roomDistance: 12
   expansionChance: 0.6

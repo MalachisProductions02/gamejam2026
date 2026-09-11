@@ -118,4 +118,9 @@ public class RoomCamera : MonoBehaviour
     {
         return isMoving;
     }
+
+    public Vector2Int GetCurrentRoom()
+    {
+        return currentRoom;
+    }
 }
