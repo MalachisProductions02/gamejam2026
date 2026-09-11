@@ -5,8 +5,8 @@ using UnityEngine;
 public class DungeonGenerator : MonoBehaviour
 {
     [Header("Configuración Base de la Mazmorra")]
-    public int baseRooms = 8;             // Habitaciones en el Piso 1
-    public int roomsPerFloor = 2;         // Cuántas habitaciones extra se suman por cada piso
+    public int baseRooms = 8;             
+    public int roomsPerFloor = 2;         
     public float roomDistance = 12f;
 
     [Header("Ajustes de Generación")]
@@ -137,6 +137,14 @@ public class DungeonGenerator : MonoBehaviour
                 }
             }
         }
+
+        // Instanciar jugador en la habitación inicial
+        Vector3 playerPosition = new Vector3(
+            startPos.x * roomDistance,
+            startPos.y * roomDistance,
+            0f
+        );
+
     }
 
     void InstantiateRoom(Vector2Int gridPos, GameObject prefab)
@@ -147,7 +155,35 @@ public class DungeonGenerator : MonoBehaviour
             0f
         );
 
-        Instantiate(prefab, worldPosition, Quaternion.identity, transform);
+        GameObject room = Instantiate(
+            prefab,
+            worldPosition,
+            Quaternion.identity,
+            transform
+        );
+
+        // Buscar las puertas dentro de la habitación
+        Transform doorUp = room.transform.Find("Building/Door_Up");
+        Transform doorDown = room.transform.Find("Building/Door_Down");
+        Transform doorLeft = room.transform.Find("Building/Door_Left");
+        Transform doorRight = room.transform.Find("Building/Door_Right");
+
+        // Activar solamente las puertas que tengan una habitación vecina
+        doorUp.gameObject.SetActive(
+            roomPositions.Contains(gridPos + Vector2Int.up)
+        );
+
+        doorDown.gameObject.SetActive(
+            roomPositions.Contains(gridPos + Vector2Int.down)
+        );
+
+        doorLeft.gameObject.SetActive(
+            roomPositions.Contains(gridPos + Vector2Int.left)
+        );
+
+        doorRight.gameObject.SetActive(
+            roomPositions.Contains(gridPos + Vector2Int.right)
+        );
     }
 
     void ShuffleDirections(Vector2Int[] array)
@@ -159,5 +195,10 @@ public class DungeonGenerator : MonoBehaviour
             array[i] = array[randomIndex];
             array[randomIndex] = temp;
         }
+    }
+
+    public bool RoomExists(Vector2Int position)
+    {
+        return roomPositions.Contains(position);
     }
 }

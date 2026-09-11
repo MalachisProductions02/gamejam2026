@@ -6,53 +6,49 @@ public class Player : MonoBehaviour
 {
     [SerializeField] private float speed = 5f;
 
-    //[SerializeField] private Animator _animator;
     private Rigidbody2D rb;
     private Vector2 movementDirection;
-    //private SpriteRenderer _spriteRenderer;
 
+    private bool canMove = true;
 
-    // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-        //_spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
-    // Update is called once per frame
     void Update()
     {
-        movementDirection = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
-        /*if (movementDirection.x > 0)
+        if (!canMove)
         {
-            _spriteRenderer.flipX = false;
+            movementDirection = Vector2.zero;
+            return;
         }
-        else if (movementDirection.x < 0)
-        {
-            _spriteRenderer.flipX = true;
-        }
-        _animator.SetBool("isRunning", false);
-        _animator.SetBool("isUp", false);
-        _animator.SetBool("isDown", false);
 
-        if (Mathf.Abs(movementDirection.x) == 1)
-        {
-            _animator.SetBool("isRunning", true);
-        }
-        else if (movementDirection.y == 1)
-        {
-            _animator.SetBool("isUp", true);
-        }
-        else if (movementDirection.y == -1)
-        {
-            _animator.SetBool("isDown", true);
-        }*/
-
-
+        movementDirection = new Vector2(
+            Input.GetAxisRaw("Horizontal"),
+            Input.GetAxisRaw("Vertical")
+        );
     }
 
     void FixedUpdate()
     {
+        if (!canMove)
+        {
+            rb.velocity = Vector2.zero;
+            return;
+        }
+
         rb.velocity = movementDirection * speed;
+    }
+
+    public void SetMovementEnabled(bool enabled)
+    {
+        canMove = enabled;
+
+        if (!enabled)
+        {
+            movementDirection = Vector2.zero;
+            rb.velocity = Vector2.zero;
+        }
     }
 }
