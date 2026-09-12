@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using NavMeshPlus.Components;
 using UnityEngine;
 
 public class DungeonGenerator : MonoBehaviour
@@ -18,11 +19,13 @@ public class DungeonGenerator : MonoBehaviour
     public GameObject[] roomPrefabs;
     public GameObject bossRoomPrefab;
 
+    public NavMeshSurface navMeshSurface;
+
     private int totalRooms;
     private HashSet<Vector2Int> roomPositions = new HashSet<Vector2Int>();
     private Queue<Vector2Int> roomQueue = new Queue<Vector2Int>();
 
-    void Start()
+    IEnumerator Start()
     {
         /* Calcular habitaciones según el piso actual del GameManager
         int currentFloor = 1;
@@ -42,10 +45,10 @@ public class DungeonGenerator : MonoBehaviour
 
         Debug.Log($"Generando nivel con {totalRooms} habitaciones.");
 
-        GenerateDungeon();
+        yield return StartCoroutine(GenerateDungeon());
     }
 
-    void GenerateDungeon()
+    IEnumerator GenerateDungeon()
     {
         roomPositions.Clear();
         roomQueue.Clear();
@@ -137,6 +140,14 @@ public class DungeonGenerator : MonoBehaviour
                 }
             }
         }
+
+        yield return new WaitForFixedUpdate();
+        yield return null;
+        yield return null;
+
+        Physics2D.SyncTransforms();
+
+        navMeshSurface.BuildNavMeshAsync();
 
         // Instanciar jugador en la habitación inicial
         Vector3 playerPosition = new Vector3(
