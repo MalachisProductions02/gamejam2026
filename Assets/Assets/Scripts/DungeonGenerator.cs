@@ -162,28 +162,38 @@ public class DungeonGenerator : MonoBehaviour
             transform
         );
 
-        // Buscar las puertas dentro de la habitación
+        // Buscar puertas
         Transform doorUp = room.transform.Find("Building/Door_Up");
         Transform doorDown = room.transform.Find("Building/Door_Down");
         Transform doorLeft = room.transform.Find("Building/Door_Left");
         Transform doorRight = room.transform.Find("Building/Door_Right");
 
-        // Activar solamente las puertas que tengan una habitación vecina
-        doorUp.gameObject.SetActive(
-            roomPositions.Contains(gridPos + Vector2Int.up)
-        );
+        // Buscar paredes
+        Transform wallUp = room.transform.Find("Building/Wall_Up");
+        Transform wallDown = room.transform.Find("Building/Wall_Down");
+        Transform wallLeft = room.transform.Find("Building/Wall_Left");
+        Transform wallRight = room.transform.Find("Building/Wall_Right");
 
-        doorDown.gameObject.SetActive(
-            roomPositions.Contains(gridPos + Vector2Int.down)
-        );
+        // Comprobar si existe una habitación vecina
+        bool hasUp = roomPositions.Contains(gridPos + Vector2Int.up);
+        bool hasDown = roomPositions.Contains(gridPos + Vector2Int.down);
+        bool hasLeft = roomPositions.Contains(gridPos + Vector2Int.left);
+        bool hasRight = roomPositions.Contains(gridPos + Vector2Int.right);
 
-        doorLeft.gameObject.SetActive(
-            roomPositions.Contains(gridPos + Vector2Int.left)
-        );
+        // Si hay habitación → puerta
+        // Si no hay habitación → pared
 
-        doorRight.gameObject.SetActive(
-            roomPositions.Contains(gridPos + Vector2Int.right)
-        );
+        doorUp.gameObject.SetActive(hasUp);
+        wallUp.gameObject.SetActive(!hasUp);
+
+        doorDown.gameObject.SetActive(hasDown);
+        wallDown.gameObject.SetActive(!hasDown);
+
+        doorLeft.gameObject.SetActive(hasLeft);
+        wallLeft.gameObject.SetActive(!hasLeft);
+
+        doorRight.gameObject.SetActive(hasRight);
+        wallRight.gameObject.SetActive(!hasRight);
     }
 
     void ShuffleDirections(Vector2Int[] array)
