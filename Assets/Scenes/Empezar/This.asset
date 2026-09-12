@@ -15,15 +15,15 @@ MonoBehaviour:
   active: 1
   type:
     m_OverrideState: 1
-    m_Value: 0
+    m_Value: 4
   intensity:
     m_OverrideState: 1
-    m_Value: 0.314
+    m_Value: 0.521
   response:
-    m_OverrideState: 1
-    m_Value: 0.475
+    m_OverrideState: 0
+    m_Value: 0.143
   texture:
-    m_OverrideState: 1
+    m_OverrideState: 0
     m_Value: {fileID: 0}
 --- !u!114 &-5507170193324333148
 MonoBehaviour:
@@ -40,47 +40,19 @@ MonoBehaviour:
   active: 1
   intensity:
     m_OverrideState: 1
-    m_Value: 0.47
+    m_Value: 0.06
   xMultiplier:
     m_OverrideState: 1
-    m_Value: 0.444
+    m_Value: 0.229
   yMultiplier:
     m_OverrideState: 1
-    m_Value: 0.648
+    m_Value: 0.185
   center:
-    m_OverrideState: 1
+    m_OverrideState: 0
     m_Value: {x: 0.5, y: 0.5}
   scale:
-    m_OverrideState: 1
+    m_OverrideState: 0
     m_Value: 2.68
---- !u!114 &-2933126792257049250
-MonoBehaviour:
-  m_ObjectHideFlags: 3
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 66f335fb1ffd8684294ad653bf1c7564, type: 3}
-  m_Name: ColorAdjustments
-  m_EditorClassIdentifier: 
-  active: 1
-  postExposure:
-    m_OverrideState: 1
-    m_Value: -5
-  contrast:
-    m_OverrideState: 1
-    m_Value: 100
-  colorFilter:
-    m_OverrideState: 0
-    m_Value: {r: 1, g: 1, b: 1, a: 1}
-  hueShift:
-    m_OverrideState: 0
-    m_Value: 0
-  saturation:
-    m_OverrideState: 1
-    m_Value: 100
 --- !u!114 &-730002613789865543
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -96,7 +68,7 @@ MonoBehaviour:
   active: 1
   intensity:
     m_OverrideState: 1
-    m_Value: 0.587
+    m_Value: 0.131
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -107,7 +79,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d7fd9488000d3734a9e00ee676215985, type: 3}
-  m_Name: Global Volume Profile
+  m_Name: This
   m_EditorClassIdentifier: 
   components:
   - {fileID: 6847869263890889009}
@@ -115,7 +87,6 @@ MonoBehaviour:
   - {fileID: -5507170193324333148}
   - {fileID: -730002613789865543}
   - {fileID: 6029458301598217354}
-  - {fileID: -2933126792257049250}
 --- !u!114 &6029458301598217354
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -130,17 +101,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   active: 1
   mode:
-    m_OverrideState: 1
+    m_OverrideState: 0
     m_Value: 0
   quality:
-    m_OverrideState: 1
+    m_OverrideState: 0
     m_Value: 1
   intensity:
-    m_OverrideState: 1
+    m_OverrideState: 0
     m_Value: 0.215
   clamp:
-    m_OverrideState: 1
-    m_Value: 0.062
+    m_OverrideState: 0
+    m_Value: 0.012
 --- !u!114 &6847869263890889009
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -155,25 +126,25 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   active: 1
   skipIterations:
-    m_OverrideState: 1
+    m_OverrideState: 0
     m_Value: 1
   threshold:
     m_OverrideState: 1
-    m_Value: 1
+    m_Value: 0.56
   intensity:
     m_OverrideState: 1
-    m_Value: 0.53
+    m_Value: 1.58
   scatter:
     m_OverrideState: 1
-    m_Value: 0.7
+    m_Value: 0.505
   clamp:
-    m_OverrideState: 1
+    m_OverrideState: 0
     m_Value: 65471.73
   tint:
-    m_OverrideState: 1
+    m_OverrideState: 0
     m_Value: {r: 1, g: 1, b: 1, a: 1}
   highQualityFiltering:
-    m_OverrideState: 1
+    m_OverrideState: 0
     m_Value: 0
   downscale:
     m_OverrideState: 0
@@ -182,9 +153,9 @@ MonoBehaviour:
     m_OverrideState: 0
     m_Value: 6
   dirtTexture:
-    m_OverrideState: 1
+    m_OverrideState: 0
     m_Value: {fileID: 0}
     dimension: 1
   dirtIntensity:
-    m_OverrideState: 1
+    m_OverrideState: 0
     m_Value: 0
