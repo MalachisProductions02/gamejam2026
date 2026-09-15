@@ -21,11 +21,13 @@ public class Player : MonoBehaviour
     [SerializeField] private int coins = 0;
 
     private Animator animator;
+    private AudioSource audioSource;
 
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
+        audioSource = GetComponent<AudioSource>();
 
         if (GameManager.Instance != null)
         {
@@ -215,6 +217,7 @@ public class Player : MonoBehaviour
     private void OnCollisionEnter2D(Collision2D collision)
     {
         EnemyHealth enemy = collision.gameObject.GetComponent<EnemyHealth>();
+        audioSource.Play();
 
         if (enemy == null)
             return;
