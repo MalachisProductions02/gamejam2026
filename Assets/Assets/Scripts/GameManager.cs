@@ -7,13 +7,16 @@ public class GameManager : MonoBehaviour
     [Header("Progreso del Juego")]
     public int currentFloor = 1;
 
+    [Header("Estado del jugador")]
+    public int savedHealth = 6;
+
     void Awake()
     {
         // Singleton para asegurar que solo exista un GameManager
         if (Instance == null)
         {
             Instance = this;
-            DontDestroyOnLoad(gameObject); // Evita que se destruya al cargar otra escena
+            DontDestroyOnLoad(gameObject);
         }
         else
         {

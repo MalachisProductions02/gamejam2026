@@ -26,6 +26,7 @@ public class DungeonGenerator : MonoBehaviour
     private Dictionary<Vector2Int, GameObject> roomObjects =
     new Dictionary<Vector2Int, GameObject>();
     private Queue<Vector2Int> roomQueue = new Queue<Vector2Int>();
+    private Vector2Int bossRoomPosition;
 
     IEnumerator Start()
     {
@@ -106,12 +107,15 @@ public class DungeonGenerator : MonoBehaviour
         foreach (Vector2Int pos in createdRooms)
         {
             int distance = Mathf.Abs(pos.x - startPos.x) + Mathf.Abs(pos.y - startPos.y);
+
             if (distance > maxDistance)
             {
                 maxDistance = distance;
                 bossPos = pos;
             }
         }
+
+        bossRoomPosition = bossPos;
 
         // Instanciar prefabs
         List<GameObject> availableRooms = new List<GameObject>(roomPrefabs);
@@ -240,5 +244,15 @@ public class DungeonGenerator : MonoBehaviour
                 room.Key != currentRoom
             );
         }
+    }
+
+    public Vector2Int GetStartRoom()
+    {
+        return Vector2Int.zero;
+    }
+
+    public Vector2Int GetBossRoom()
+    {
+        return bossRoomPosition;
     }
 }

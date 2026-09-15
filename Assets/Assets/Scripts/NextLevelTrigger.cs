@@ -39,13 +39,23 @@ public class NextLevelTrigger : MonoBehaviour
 
     void ChangeFloor()
     {
-        // Incrementar el número de piso en el GameManager si existe
         if (GameManager.Instance != null)
         {
+            GameObject playerObject = GameObject.FindGameObjectWithTag("Player");
+
+            if (playerObject != null)
+            {
+                Player player = playerObject.GetComponent<Player>();
+
+                if (player != null)
+                {
+                    GameManager.Instance.savedHealth = player.GetCurrentHealth();
+                }
+            }
+
             GameManager.Instance.AdvanceToNextFloor();
         }
 
-        // Recargar la escena de la mazmorra (o ir a la siguiente)
         SceneManager.LoadScene(dungeonSceneName);
     }
 }

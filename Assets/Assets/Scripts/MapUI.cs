@@ -19,6 +19,8 @@ public class MapUI : MonoBehaviour
     public Color currentColor = Color.white;
     public Color visitedColor = new Color(0.35f, 0.35f, 0.35f);
     public Color discoveredColor = new Color(0.7f, 0.7f, 0.7f);
+    public Color startRoomColor = new Color(0.2f, 0.6f, 0.2f, 1f);
+    public Color bossRoomColor = new Color(0.7f, 0.15f, 0.15f, 1f);
 
     private Dictionary<Vector2Int, GameObject> roomUIObjects =
         new Dictionary<Vector2Int, GameObject>();
@@ -143,9 +145,24 @@ public class MapUI : MonoBehaviour
 
                 if (image != null)
                 {
-                    image.color = currentColor;
+                    // Inicial
+                    if (position == dungeonGenerator.GetStartRoom())
+                    {
+                        image.color = startRoomColor;
+                    }
+                    // Jefe
+                    else if (position == dungeonGenerator.GetBossRoom())
+                    {
+                        image.color = bossRoomColor;
+                    }
+                    // Normal
+                    else
+                    {
+                        image.color = currentColor;
+                    }
                 }
             }
+
             // HABITACIÓN YA VISITADA
             else if (visitedRooms.Contains(position))
             {
@@ -153,9 +170,21 @@ public class MapUI : MonoBehaviour
 
                 if (image != null)
                 {
-                    image.color = visitedColor;
+                    if (position == dungeonGenerator.GetStartRoom())
+                    {
+                        image.color = startRoomColor;
+                    }
+                    else if (position == dungeonGenerator.GetBossRoom())
+                    {
+                        image.color = bossRoomColor;
+                    }
+                    else
+                    {
+                        image.color = visitedColor;
+                    }
                 }
             }
+
             // HABITACIÓN DESCUBIERTA PERO NO VISITADA
             else if (discoveredRooms.Contains(position))
             {
@@ -163,9 +192,21 @@ public class MapUI : MonoBehaviour
 
                 if (image != null)
                 {
-                    image.color = discoveredColor;
+                    if (position == dungeonGenerator.GetStartRoom())
+                    {
+                        image.color = startRoomColor;
+                    }
+                    else if (position == dungeonGenerator.GetBossRoom())
+                    {
+                        image.color = bossRoomColor;
+                    }
+                    else
+                    {
+                        image.color = discoveredColor;
+                    }
                 }
             }
+
             // HABITACIÓN DESCONOCIDA
             else
             {

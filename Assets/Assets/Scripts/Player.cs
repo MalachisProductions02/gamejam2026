@@ -20,13 +20,25 @@ public class Player : MonoBehaviour
     [Header("Coins")]
     [SerializeField] private int coins = 0;
 
+    private Animator animator;
 
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        animator = GetComponent<Animator>();
 
-        currentHealth = maxHealth;
+        if (GameManager.Instance != null)
+        {
+            currentHealth = GameManager.Instance.savedHealth;
+        }
+        else
+        {
+            currentHealth = maxHealth;
+        }
+
         currentEmotionalState = maxEmotionalState;
+
+        Debug.Log("PLAYER INICIALIZADO - VIDA: " + currentHealth);
     }
 
 
@@ -35,6 +47,11 @@ public class Player : MonoBehaviour
         if (!canMove)
         {
             movementDirection = Vector2.zero;
+
+            animator.SetBool("isWalking", false);
+            animator.SetBool("isUp", false);
+            animator.SetBool("isDown", false);
+
             return;
         }
 
@@ -42,6 +59,35 @@ public class Player : MonoBehaviour
             Input.GetAxisRaw("Horizontal"),
             Input.GetAxisRaw("Vertical")
         );
+
+        // Voltear personaje horizontalmente
+        if (movementDirection.x > 0)
+        {
+            transform.localScale = new Vector3(1f, 1f, 1f);
+        }
+        else if (movementDirection.x < 0)
+        {
+            transform.localScale = new Vector3(-1f, 1f, 1f);
+        }
+
+        // Apagar todas las animaciones
+        animator.SetBool("isWalking", false);
+        animator.SetBool("isUp", false);
+        animator.SetBool("isDown", false);
+
+        // Activar solamente una
+        if (Mathf.Abs(movementDirection.x) == 1)
+        {
+            animator.SetBool("isWalking", true);
+        }
+        else if (movementDirection.y == 1)
+        {
+            animator.SetBool("isUp", true);
+        }
+        else if (movementDirection.y == -1)
+        {
+            animator.SetBool("isDown", true);
+        }
     }
 
 
