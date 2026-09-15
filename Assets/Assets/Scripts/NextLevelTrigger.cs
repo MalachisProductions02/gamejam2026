@@ -25,7 +25,16 @@ public class NextLevelTrigger : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             isPlayerInside = true;
-            Debug.Log("Presiona 'E' para avanzar al siguiente piso.");
+
+            if (GameManager.Instance != null &&
+                GameManager.Instance.HasNextFloor())
+            {
+                Debug.Log("Presiona 'E' para avanzar al siguiente piso.");
+            }
+            else
+            {
+                Debug.Log("Este es el último piso.");
+            }
         }
     }
 
@@ -39,23 +48,39 @@ public class NextLevelTrigger : MonoBehaviour
 
     void ChangeFloor()
     {
-        if (GameManager.Instance != null)
+        if (GameManager.Instance == null)
         {
-            GameObject playerObject = GameObject.FindGameObjectWithTag("Player");
-
-            if (playerObject != null)
-            {
-                Player player = playerObject.GetComponent<Player>();
-
-                if (player != null)
-                {
-                    GameManager.Instance.savedHealth = player.GetCurrentHealth();
-                }
-            }
-
-            GameManager.Instance.AdvanceToNextFloor();
+            Debug.LogWarning("No existe GameManager.");
+            return;
         }
 
+        //AQUÍ PONES QUE SE ACABA EL JUEGO
+        if (!GameManager.Instance.HasNextFloor())
+        {
+            Debug.Log("No hay más pisos. Este es el último.");
+            return;
+        }
+
+        // Guardar la vida actual
+        GameObject playerObject =
+            GameObject.FindGameObjectWithTag("Player");
+
+        if (playerObject != null)
+        {
+            Player player =
+                playerObject.GetComponent<Player>();
+
+            if (player != null)
+            {
+                GameManager.Instance.savedHealth =
+                    player.GetCurrentHealth();
+            }
+        }
+
+        // Aumentar contador de piso
+        GameManager.Instance.AdvanceToNextFloor();
+
+        // Cargar nuevamente la escena
         SceneManager.LoadScene(dungeonSceneName);
     }
 }

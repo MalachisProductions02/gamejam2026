@@ -9,7 +9,8 @@ public class RoomDoor : MonoBehaviour
         if (!other.CompareTag("Player"))
             return;
 
-        RoomCamera roomCamera = Camera.main.GetComponent<RoomCamera>();
+        RoomCamera roomCamera =
+            Camera.main.GetComponent<RoomCamera>();
 
         if (roomCamera == null)
             return;
@@ -17,7 +18,9 @@ public class RoomDoor : MonoBehaviour
         if (roomCamera.IsMoving())
             return;
 
-        Debug.Log("Jugador entró en una puerta: " + direction);
+        Debug.Log(
+            "Jugador entró en una puerta: " + direction
+        );
 
         roomCamera.MoveToRoom(direction);
     }

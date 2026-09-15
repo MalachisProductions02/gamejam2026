@@ -13,12 +13,12 @@ TagManager:
   - Player
   - Water
   - UI
-  - Post Processing
+  - Projectile
   - Enemy
   - Floor
   - Wall
   - PlayerDetector
-  - 
+  - Post Processing
   - 
   - 
   - 
@@ -45,6 +45,9 @@ TagManager:
     locked: 0
   - name: Floor
     uniqueID: 3837081021
+    locked: 0
+  - name: Projectile
+    uniqueID: 3705871905
     locked: 0
   - name: Player
     uniqueID: 487406643

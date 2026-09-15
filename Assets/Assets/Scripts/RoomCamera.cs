@@ -24,9 +24,17 @@ public class RoomCamera : MonoBehaviour
 
     private Player playerScript;
 
+    [Header("Camera Shake")]
+    [SerializeField] private float shakeDuration = 0.15f;
+    [SerializeField] private float shakeMagnitude = 0.15f;
+
+    private float shakeTime = 0f;
+    private Vector3 baseCameraPosition;
+
     void Start()
     {
-        transform.position = new Vector3(0f, 0f, -10f);
+        baseCameraPosition = new Vector3(0f, 0f, -10f);
+        transform.position = baseCameraPosition;
 
         if (player != null)
         {
@@ -102,7 +110,8 @@ public class RoomCamera : MonoBehaviour
             yield return null;
         }
 
-        transform.position = targetCameraPosition;
+        baseCameraPosition = targetCameraPosition;
+        transform.position = baseCameraPosition;
         player.position = targetPlayerPosition;
 
         // Volver a permitir movimiento
@@ -133,5 +142,30 @@ public class RoomCamera : MonoBehaviour
         yield return null;
 
         dungeonGenerator.SetCurrentRoomVisible(currentRoom);
+    }
+
+    public void ShakeCamera()
+    {
+        shakeTime = shakeDuration;
+    }
+
+    void LateUpdate()
+    {
+        if (isMoving)
+            return;
+
+        if (shakeTime > 0f)
+        {
+            Vector3 shakeOffset =
+                Random.insideUnitCircle * shakeMagnitude;
+
+            transform.position = baseCameraPosition + shakeOffset;
+
+            shakeTime -= Time.deltaTime;
+        }
+        else
+        {
+            transform.position = baseCameraPosition;
+        }
     }
 }

@@ -90,10 +90,30 @@ public class ShotManager : MonoBehaviour
         GameObject selectedThought =
             selectedArray[Random.Range(0, selectedArray.Length)];
 
+        // Obtener posición del mouse en el mundo
+        Vector3 mouseWorldPosition =
+            mainCamera.ScreenToWorldPoint(Input.mousePosition);
+
+        mouseWorldPosition.z = 0f;
+
+        // Calcular dirección del disparo
+        Vector2 direction =
+            mouseWorldPosition - shotPoint.position;
+
+        direction.Normalize();
+
+        // Calcular rotación según la dirección
+        float angle =
+            Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+
+        Quaternion rotation =
+            Quaternion.Euler(0f, 0f, angle);
+
+        // Crear el proyectil ya rotado
         GameObject projectile = Instantiate(
             selectedThought,
             shotPoint.position,
-            Quaternion.identity
+            rotation
         );
 
         ThoughtProjectile thought =
@@ -108,14 +128,6 @@ public class ShotManager : MonoBehaviour
             Destroy(projectile);
             return;
         }
-
-        Vector3 mouseWorldPosition =
-            mainCamera.ScreenToWorldPoint(Input.mousePosition);
-
-        mouseWorldPosition.z = 0f;
-
-        Vector2 direction =
-            mouseWorldPosition - shotPoint.position;
 
         thought.Initialize(direction, damage);
     }

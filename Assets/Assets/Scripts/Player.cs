@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Rendering.Universal;
 
 public class Player : MonoBehaviour
 {
@@ -10,7 +11,7 @@ public class Player : MonoBehaviour
     private bool canMove = true;
 
     [Header("Vida")]
-    [SerializeField] private int maxHealth = 3;
+    [SerializeField] private int maxHealth = 6;
     private int currentHealth;
 
     [Header("Estado emocional")]
@@ -21,13 +22,21 @@ public class Player : MonoBehaviour
     [SerializeField] private int coins = 0;
 
     private Animator animator;
+    private GameObject Ojos;
     private AudioSource audioSource;
+    public Camera maincamera;
+    private UniversalAdditionalCameraData cameraData;
+    private RoomCamera roomCamera;
 
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
         audioSource = GetComponent<AudioSource>();
+        Ojos = GameObject.Find("Ojos");
+        maincamera = GameObject.Find("Main Camera").GetComponent<Camera>();
+        cameraData = maincamera.GetUniversalAdditionalCameraData();
+        roomCamera = FindObjectOfType<RoomCamera>();
 
         if (GameManager.Instance != null)
         {
@@ -46,6 +55,14 @@ public class Player : MonoBehaviour
 
     void Update()
     {
+        if (currentHealth <= 3)
+        {
+            cameraData.renderPostProcessing = true;
+        }
+        else
+        {
+            cameraData.renderPostProcessing = false;
+        }
         if (!canMove)
         {
             movementDirection = Vector2.zero;
@@ -53,6 +70,7 @@ public class Player : MonoBehaviour
             animator.SetBool("isWalking", false);
             animator.SetBool("isUp", false);
             animator.SetBool("isDown", false);
+            Ojos.SetActive(false);
 
             return;
         }
@@ -66,29 +84,35 @@ public class Player : MonoBehaviour
         if (movementDirection.x > 0)
         {
             transform.localScale = new Vector3(1f, 1f, 1f);
+            Ojos.SetActive(false);
         }
         else if (movementDirection.x < 0)
         {
             transform.localScale = new Vector3(-1f, 1f, 1f);
+            Ojos.SetActive(false);
         }
 
         // Apagar todas las animaciones
         animator.SetBool("isWalking", false);
         animator.SetBool("isUp", false);
         animator.SetBool("isDown", false);
+        Ojos.SetActive(true);
 
         // Activar solamente una
         if (Mathf.Abs(movementDirection.x) == 1)
         {
             animator.SetBool("isWalking", true);
+            Ojos.SetActive(false);
         }
         else if (movementDirection.y == 1)
         {
             animator.SetBool("isUp", true);
+            Ojos.SetActive(false);
         }
         else if (movementDirection.y == -1)
         {
             animator.SetBool("isDown", true);
+            Ojos.SetActive(true);
         }
     }
 
@@ -127,6 +151,11 @@ public class Player : MonoBehaviour
 
         Debug.Log("Daño recibido: " + damage);
         Debug.Log("Vida actual: " + currentHealth);
+
+        if (roomCamera != null)
+        {
+            roomCamera.ShakeCamera();
+        }
 
         if (currentHealth <= 0)
         {
@@ -217,15 +246,27 @@ public class Player : MonoBehaviour
     private void OnCollisionEnter2D(Collision2D collision)
     {
         EnemyHealth enemy = collision.gameObject.GetComponent<EnemyHealth>();
-        audioSource.Play();
+        
 
         if (enemy == null)
             return;
-
+        audioSource.Play();
         Debug.Log("COLISIÓN CON ENEMIGO: " + collision.gameObject.name);
 
         TakeDamage(1);
 
         Destroy(collision.gameObject);
+    }
+    public void Heal(int amount)
+    {
+        currentHealth += amount;
+
+        currentHealth = Mathf.Clamp(
+            currentHealth,
+            0,
+            maxHealth
+        );
+
+        Debug.Log("Jugador curado: " + currentHealth);
     }
 }
