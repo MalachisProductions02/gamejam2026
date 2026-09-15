@@ -23,6 +23,8 @@ public class DungeonGenerator : MonoBehaviour
 
     private int totalRooms;
     private HashSet<Vector2Int> roomPositions = new HashSet<Vector2Int>();
+    private Dictionary<Vector2Int, GameObject> roomObjects =
+    new Dictionary<Vector2Int, GameObject>();
     private Queue<Vector2Int> roomQueue = new Queue<Vector2Int>();
 
     IEnumerator Start()
@@ -172,6 +174,7 @@ public class DungeonGenerator : MonoBehaviour
             Quaternion.identity,
             transform
         );
+        roomObjects.Add(gridPos, room);
 
         // Buscar puertas
         Transform doorUp = room.transform.Find("Building/Door_Up");
@@ -221,5 +224,21 @@ public class DungeonGenerator : MonoBehaviour
     public bool RoomExists(Vector2Int position)
     {
         return roomPositions.Contains(position);
+    }
+
+    public void SetCurrentRoomVisible(Vector2Int currentRoom)
+    {
+        foreach (KeyValuePair<Vector2Int, GameObject> room in roomObjects)
+        {
+            Transform blackSquare =
+                room.Value.transform.Find("BlackSquare");
+
+            if (blackSquare == null)
+                continue;
+
+            blackSquare.gameObject.SetActive(
+                room.Key != currentRoom
+            );
+        }
     }
 }
