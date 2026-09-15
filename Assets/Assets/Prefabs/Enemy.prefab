@@ -14,11 +14,10 @@ GameObject:
   - component: {fileID: 7240653316105135681}
   - component: {fileID: 7876897988939694335}
   - component: {fileID: 8738049989987121708}
-  - component: {fileID: 4398828800929060783}
   - component: {fileID: 5328610100567669411}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Enemy
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -131,7 +130,7 @@ Rigidbody2D:
     m_Bits: 0
   m_Interpolate: 0
   m_SleepingMode: 1
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
   m_Constraints: 4
 --- !u!58 &7876897988939694335
 CircleCollider2D:
@@ -142,7 +141,7 @@ CircleCollider2D:
   m_GameObject: {fileID: 1648671966735108363}
   m_Enabled: 1
   m_Density: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: dd537ac02e1a8f0408b49579e8acd46c, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -190,19 +189,6 @@ NavMeshAgent:
   m_BaseOffset: 0.5
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
---- !u!114 &4398828800929060783
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1648671966735108363}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7d887ad8a75c28248b51e883265dd0ed, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  damage: 1
 --- !u!114 &5328610100567669411
 MonoBehaviour:
   m_ObjectHideFlags: 0

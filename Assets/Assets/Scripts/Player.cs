@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 public class Player : MonoBehaviour
@@ -58,9 +57,7 @@ public class Player : MonoBehaviour
     }
 
 
-    // =========================
-    // MOVIMIENTO
-    // =========================
+    // Movimiento
 
     public void SetMovementEnabled(bool enabled)
     {
@@ -74,9 +71,7 @@ public class Player : MonoBehaviour
     }
 
 
-    // =========================
-    // VIDA
-    // =========================
+    // Vida
 
     public void TakeDamage(int damage)
     {
@@ -103,7 +98,7 @@ public class Player : MonoBehaviour
     }
 
 
-    // ESTADO EMOCIONAL 
+    // Estado emocional
 
     public void ChangeEmotionalState(float amount)
     {
@@ -119,9 +114,7 @@ public class Player : MonoBehaviour
     }
 
 
-    // =========================
-    // COINS
-    // =========================
+    // Monedas
 
     public void AddCoins(int amount)
     {
@@ -146,9 +139,7 @@ public class Player : MonoBehaviour
     }
 
 
-    // =========================
-    // GETTERS
-    // =========================
+    // Obtener información
 
     public int GetCurrentHealth()
     {
@@ -173,5 +164,19 @@ public class Player : MonoBehaviour
     public int GetCoins()
     {
         return coins;
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        EnemyHealth enemy = collision.gameObject.GetComponent<EnemyHealth>();
+
+        if (enemy == null)
+            return;
+
+        Debug.Log("COLISIÓN CON ENEMIGO: " + collision.gameObject.name);
+
+        TakeDamage(1);
+
+        Destroy(collision.gameObject);
     }
 }

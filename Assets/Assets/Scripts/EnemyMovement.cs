@@ -10,7 +10,7 @@ public class EnemyMovement : MonoBehaviour
     [Header("Movimiento")]
     [SerializeField] private float speed = 2f;
     [SerializeField] private float acceleration = 8f;
-    [SerializeField] private float stoppingDistance = 0.2f;
+    [SerializeField] private float stoppingDistance = 0.8f;
 
     private NavMeshAgent agent;
     private Transform player;
@@ -21,7 +21,6 @@ public class EnemyMovement : MonoBehaviour
     {
         agent = GetComponent<NavMeshAgent>();
 
-        // Buscar automáticamente al jugador
         GameObject playerObject =
             GameObject.FindGameObjectWithTag("Player");
 
@@ -31,10 +30,12 @@ public class EnemyMovement : MonoBehaviour
         }
         else
         {
-            Debug.LogError("No se encontró un objeto con el Tag 'Player'.");
+            Debug.LogError(
+                "No se encontró un objeto con el Tag 'Player'."
+            );
         }
 
-        // Configuración para juego 2D
+        // Configuración para 2D
         agent.updateRotation = false;
         agent.updateUpAxis = false;
 
@@ -42,8 +43,6 @@ public class EnemyMovement : MonoBehaviour
         agent.acceleration = acceleration;
         agent.stoppingDistance = stoppingDistance;
 
-        // El NavMesh todavía puede no existir.
-        // Esperamos a que esté listo.
         agent.enabled = false;
 
         StartCoroutine(WaitForNavMesh());
@@ -62,13 +61,9 @@ public class EnemyMovement : MonoBehaviour
             yield return null;
         }
 
-        // Colocar exactamente al enemigo sobre el NavMesh
         transform.position = hit.position;
 
-        // Activar el agente ahora que el NavMesh existe
         agent.enabled = true;
-
-        // Asegurarnos de que está colocado sobre el NavMesh
         agent.Warp(hit.position);
 
         navMeshReady = true;
@@ -82,7 +77,6 @@ public class EnemyMovement : MonoBehaviour
         if (player == null)
             return;
 
-        // Seguridad adicional
         if (!agent.enabled || !agent.isOnNavMesh)
             return;
 

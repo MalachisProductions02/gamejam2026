@@ -523,9 +523,9 @@ RectTransform:
   - {fileID: 781323771}
   m_Father: {fileID: 1117679405}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 631.21436, y: 310.69696}
+  m_AnchorMin: {x: 1, y: 1}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: -300, y: -300}
   m_SizeDelta: {x: 250, y: 250}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &677684680
@@ -974,7 +974,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 5
-  maxHealth: 3
+  maxHealth: 6
   maxEmotionalState: 100
   coins: 0
 --- !u!50 &1210685679
@@ -1002,7 +1002,7 @@ Rigidbody2D:
     m_Bits: 0
   m_Interpolate: 0
   m_SleepingMode: 1
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
   m_Constraints: 4
 --- !u!61 &1210685680
 BoxCollider2D:
@@ -1013,7 +1013,7 @@ BoxCollider2D:
   m_GameObject: {fileID: 1210685675}
   m_Enabled: 1
   m_Density: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: dd537ac02e1a8f0408b49579e8acd46c, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -1077,8 +1077,9 @@ MonoBehaviour:
   positiveDamage: 2
   neutralDamage: 1
   negativeDamage: 0.5
-  positiveThreshold: 80
-  neutralThreshold: 40
+  shotCooldown: 0.5
+  positiveThreshold: 4
+  neutralThreshold: 2
 --- !u!1 &1560784007
 GameObject:
   m_ObjectHideFlags: 0

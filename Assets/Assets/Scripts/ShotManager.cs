@@ -18,9 +18,9 @@ public class ShotManager : MonoBehaviour
 
     private float nextShotTime = 0f;
 
-    [Header("Estado emocional")]
-    [SerializeField] private float positiveThreshold = 80f;
-    [SerializeField] private float neutralThreshold = 40f;
+    [Header("Vida")]
+    [SerializeField] private int positiveThreshold = 4;
+    [SerializeField] private int neutralThreshold = 2;
 
     private Player player;
     private Camera mainCamera;
@@ -57,18 +57,18 @@ public class ShotManager : MonoBehaviour
 
     private void Shoot()
     {
-        float emotionalState =
-            player.GetCurrentEmotionalState();
+        float health =
+            player.GetCurrentHealth();
 
         GameObject[] selectedArray;
         float damage;
 
-        if (emotionalState > positiveThreshold)
+        if (health > positiveThreshold)
         {
             selectedArray = positiveThoughts;
             damage = positiveDamage;
         }
-        else if (emotionalState > neutralThreshold)
+        else if (health > neutralThreshold)
         {
             selectedArray = neutralThoughts;
             damage = neutralDamage;

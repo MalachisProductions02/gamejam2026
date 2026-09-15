@@ -32,6 +32,8 @@ public class RoomCamera : MonoBehaviour
         {
             playerScript = player.GetComponent<Player>();
         }
+
+        StartCoroutine(InitializeRoomVisibility());
     }
 
     public void MoveToRoom(Vector2Int direction)
@@ -65,8 +67,8 @@ public class RoomCamera : MonoBehaviour
     )
     {
         isMoving = true;
+        UpdateRoomVisibility();
 
-        // Congelar controles del jugador
         if (playerScript != null)
         {
             playerScript.SetMovementEnabled(false);
@@ -85,14 +87,12 @@ public class RoomCamera : MonoBehaviour
             float t = Mathf.Clamp01(elapsed / duration);
             t = Mathf.SmoothStep(0f, 1f, t);
 
-            // Cámara: exactamente 12 unidades
             transform.position = Vector3.Lerp(
                 startCameraPosition,
                 targetCameraPosition,
                 t
             );
 
-            // Jugador: exactamente 2 unidades
             player.position = Vector3.Lerp(
                 startPlayerPosition,
                 targetPlayerPosition,
@@ -122,5 +122,16 @@ public class RoomCamera : MonoBehaviour
     public Vector2Int GetCurrentRoom()
     {
         return currentRoom;
+    }
+    private void UpdateRoomVisibility()
+    {
+        dungeonGenerator.SetCurrentRoomVisible(currentRoom);
+    }
+
+    IEnumerator InitializeRoomVisibility()
+    {
+        yield return null;
+
+        dungeonGenerator.SetCurrentRoomVisible(currentRoom);
     }
 }
